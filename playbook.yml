@@ -1,0 +1,41 @@
+---
+- name: PlayBook
+  hosts: server1
+  become: true
+  vars:
+    NODEJS_VERSION: "8"
+    ansible_distribution_release: "xenial" #trusty
+  tasks:
+
+  - name: Install mongodb using apt
+    apt: name=mongodb state=latest update_cache=yes force_apt_get=yes
+
+  - name: Install the gpg key for nodejs LTS
+    apt_key:
+      url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+      state: present
+
+  - name: Install the nodejs LTS repos
+    apt_repository:
+      repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
+      state: present
+      update_cache: yes
+
+  - name: Install the nodejs
+    apt:
+      name: nodejs
+      state: present
+  
+  - name: Clone git repo
+    ansible.builtin.git:
+      repo: https://github.com/kospleyer/devops-course.git
+      dest: /home/devops_course
+  
+  - name: install npm
+    command: chdir=ricks/Books/ npm install
+    become: yes
+    
+  - name: start server in background
+    shell: sudo nodejs ricks/Books/server.js &
+    async: 10
+    poll: 0
