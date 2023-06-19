@@ -65,12 +65,19 @@ resource "azurerm_linux_virtual_machine" "coursework" {
   location            = azurerm_resource_group.resgroup.location
   size                = "Standard_F2"
   admin_username      = "devasc"
-  admin_password      = "QweD14"
-  disable_password_authentication = false
+  disable_password_authentication = true
   availability_set_id = azurerm_availability_set.coursework.id
   network_interface_ids = [
     azurerm_network_interface.networkinterface.id
   ]
+
+  os_profile {
+    admin_username = "olehvol"
+    ssh_keys {
+      ##path     = "/home/devasc/.ssh/authorized_keys"  # Шлях до публічного ключа на віртуальній машині
+      key_data = file("~/.ssh/id_rsa.pub")  # Вміст публічного ключа, може бути прочитаний з файлу
+    }
+  }
 
 
   os_disk {
