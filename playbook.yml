@@ -29,13 +29,13 @@
   - name: Clone git repo
     ansible.builtin.git:
       repo: https://github.com/kospleyer/devops-course.git
-      dest: /home/devops_course
+      dest: devops_course
   
   - name: install npm
-    command: chdir=ricks/Books/ npm install
+    command: chdir=devops_course/Books/ npm install
     become: yes
     
   - name: start server in background
-    shell: sudo nodejs ricks/Books/server.js &
+    shell: sudo nodejs devops_course/Books/server.js &
     async: 10
     poll: 0

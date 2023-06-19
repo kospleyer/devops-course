@@ -64,7 +64,7 @@ resource "azurerm_linux_virtual_machine" "coursework" {
   resource_group_name = azurerm_resource_group.resgroup.name
   location            = azurerm_resource_group.resgroup.location
   size                = "Standard_F2"
-  admin_username      = "olehvol"
+  admin_username      = "devasc"
   admin_password      = "QweD14"
   disable_password_authentication = false
   availability_set_id = azurerm_availability_set.coursework.id
