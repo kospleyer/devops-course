@@ -1,0 +1,22 @@
+name: My Workflow
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+    - name: Initialize Terraform
+      run: terraform init
+    - name: Apply Terraform
+      run: terraform apply -auto-approve
+    - name: Set up Ansible
+      run: ansible-galaxy install -r requirements.yml
+    - name: Run Ansible playbook
+      run: ansible-playbook -i inventory playbook.yml
+
