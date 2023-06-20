@@ -3,6 +3,12 @@ on:
   push:
     branches:
       - main
+      
+#These environment variables are used by the terraform azure provider to setup OIDD authenticate.
+env:
+  TF_VAR_public_key_path: "${{ secrets.SSH_PUBLIC_KEY }}"
+
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
