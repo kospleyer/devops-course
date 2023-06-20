@@ -63,21 +63,18 @@ resource "azurerm_linux_virtual_machine" "coursework" {
   name                = "coursework-machine"
   resource_group_name = azurerm_resource_group.resgroup.name
   location            = azurerm_resource_group.resgroup.location
-  size                = "Standard_F2"
   admin_username      = "devasc"
+  size                = "Standard_F2"
   disable_password_authentication = true
   availability_set_id = azurerm_availability_set.coursework.id
   network_interface_ids = [
     azurerm_network_interface.networkinterface.id
   ]
-
-  os_profile {
-    admin_username = "olehvol"
-    ssh_keys {
-      ##path     = "/home/devasc/.ssh/authorized_keys"  # Шлях до публічного ключа на віртуальній машині
-      key_data = file("~/.ssh/id_rsa.pub")  # Вміст публічного ключа, може бути прочитаний з файлу
-    }
-  }
+  
+  admin_ssh_key {
+   username = "devasc"
+   public_key = file("~/.ssh/id_rsa.pub")
+}
 
 
   os_disk {
@@ -91,6 +88,14 @@ resource "azurerm_linux_virtual_machine" "coursework" {
     sku       = "16.04-LTS"
     version   = "latest"
   } 
+  
+   provisioner "local-exec" {
+    command = <<-EOT
+    sudo sed -i -e '/\[server1\]/ {N; d;}' /etc/ansible/hosts
+    sudo echo "[server1]" >> /etc/ansible/hosts
+    sudo echo "${azurerm_linux_virtual_machine.coursework.public_ip_address}" >> /etc/ansible/hosts
+    EOT
+  }
 }
 
 ## output public ip address of vm
