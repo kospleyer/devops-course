@@ -14,7 +14,9 @@ jobs:
     - name: Initialize Terraform
       run: terraform init
     - name: Apply Terraform
-      run: terraform apply -auto-approve
+      run: |
+            export TF_VAR_public_key_path="$HOME/.ssh/id_rsa.pub"
+            terraform apply -auto-approve
     - name: Set up Ansible
       run: ansible-galaxy install -r requirements.yml
     - name: Run Ansible playbook
