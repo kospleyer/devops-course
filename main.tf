@@ -96,6 +96,11 @@ resource "azurerm_linux_virtual_machine" "coursework" {
     sudo echo "[server1]" >> hosts
     sudo echo "${azurerm_linux_virtual_machine.coursework.admin_username}@${azurerm_linux_virtual_machine.coursework.public_ip_address}" >> hosts
     EOT
+    
+    environment = {
+        AZURE_USERNAME = azurerm_linux_virtual_machine.coursework.admin_username
+        AZURE_PUBLIC_IP = azurerm_linux_virtual_machine.coursework.public_ip_address
+    }
   }
 }
 

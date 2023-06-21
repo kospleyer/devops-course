@@ -51,6 +51,11 @@ jobs:
     - name: Apply Terraform
       run: terraform apply -auto-approve
       
+    - name: Update Environment Variables
+      run: |
+            echo "AZURE_USERNAME=${{ steps.vm_info.outputs.admin_username }}" >> $GITHUB_ENV
+            echo "AZURE_PUBLIC_IP=${{ steps.vm_info.outputs.public_ip }}" >> $GITHUB_ENV
+  
     - name: Execute Local Provisioner
       run: |
         touch hosts  
