@@ -16,8 +16,10 @@ jobs:
       run: terraform init
     - name: Set up SSH
       run: |
+            mkdir -p ~/.ssh
             touch ~/.ssh/id_rsa.pub
             echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
+            chmod 600 ~/.ssh/id_rsa.pub
     - name: Azure Login
       run: |
             az login --service-principal --tenant "${{ secrets.AZURE_TENANT_ID }}" --username "${{ secrets.AZURE_CLIENT_ID }}" --password "${{ secrets.AZURE_CLIENT_SECRET }}"
