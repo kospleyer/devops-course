@@ -94,7 +94,7 @@ resource "azurerm_linux_virtual_machine" "coursework" {
     touch hosts  
     sed -i -e '/\[server1\]/ {N; d;}' hosts
     sudo echo "[server1]" >> hosts
-    sudo echo "${azurerm_linux_virtual_machine.coursework.public_ip_address}" >> hosts
+    sudo echo "${azurerm_linux_virtual_machine.coursework.admin_username}@${azurerm_linux_virtual_machine.coursework.public_ip_address}" >> hosts
     EOT
   }
 }
