@@ -29,5 +29,5 @@ jobs:
     - name: Apply Terraform
       run: terraform apply -auto-approve
     - name: Run Ansible playbook
-      run: ansible-playbook -i hosts --private-key=~/.ssh/id_rsa.pub playbook.yml
+      run: ansible-playbook -i hosts --private-key=~/.ssh/id_rsa playbook.yml
 
