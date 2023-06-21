@@ -91,11 +91,10 @@ resource "azurerm_linux_virtual_machine" "coursework" {
   
    provisioner "local-exec" {
     command = <<-EOT
-    sudo mkdir -p /etc/ansible/
-    sudo touch /etc/ansible/hosts  
-    sudo sed -i -e '/\[server1\]/ {N; d;}' /etc/ansible/hosts
-    sudo echo "[server1]" >> /etc/ansible/hosts
-    sudo echo "${azurerm_linux_virtual_machine.coursework.public_ip_address}" >> /etc/ansible/hosts
+    touch hosts  
+    sed -i -e '/\[server1\]/ {N; d;}' hosts
+    sudo echo "[server1]" >> hosts
+    sudo echo "${azurerm_linux_virtual_machine.coursework.public_ip_address}" >> hosts
     EOT
   }
 }
