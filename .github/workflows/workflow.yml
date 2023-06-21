@@ -24,9 +24,7 @@ jobs:
       run: |
             az login --service-principal --tenant "${{ secrets.AZURE_TENANT_ID }}" --username "${{ secrets.AZURE_CLIENT_ID }}" --password "${{ secrets.AZURE_CLIENT_SECRET }}"
     - name: Apply Terraform
-      run: |
-            export TF_VAR_public_key_path="$HOME/.ssh/id_rsa.pub"
-            terraform apply -auto-approve
+      run: terraform apply -auto-approve
     - name: Run Ansible playbook
-      run: ansible-playbook -i hosts playbook.yml
+      run: ansible-playbook -i hosts --private-key=~/.ssh/id_rsa.pub playbook.yml
 
