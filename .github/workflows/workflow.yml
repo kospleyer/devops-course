@@ -26,6 +26,10 @@ jobs:
     - name: Azure Login
       run: |
             az login --service-principal --tenant "${{ secrets.AZURE_TENANT_ID }}" --username "${{ secrets.AZURE_CLIENT_ID }}" --password "${{ secrets.AZURE_CLIENT_SECRET }}"
+    
+    - name: Import Azure Resource Group
+      run: terraform import azurerm_resource_group.resgroup /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource
+ 
     - name: Apply Terraform
       run: terraform apply -auto-approve
     - name: Run Ansible playbook
