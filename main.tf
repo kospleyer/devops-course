@@ -88,19 +88,20 @@ resource "azurerm_linux_virtual_machine" "coursework" {
     sku       = "16.04-LTS"
     version   = "latest"
   } 
-  
-   provisioner "local-exec" {
+}
+
+resource "null_resource" "provisioner" {
+  triggers = {
+    always_run = timestamp()
+  }
+
+  provisioner "local-exec" {
     command = <<-EOT
-    touch hosts  
-    sed -i -e '/\[server1\]/ {N; d;}' hosts
-    sudo echo "[server1]" >> hosts
-    sudo echo "${azurerm_linux_virtual_machine.coursework.admin_username}@${azurerm_linux_virtual_machine.coursework.public_ip_address}" >> hosts
+      touch hosts  
+      sed -i -e '/\[server1\]/ {N; d;}' hosts
+      sudo echo "[server1]" >> hosts
+      sudo echo "${azurerm_linux_virtual_machine.coursework.admin_username}@${azurerm_linux_virtual_machine.coursework.public_ip_address}" >> hosts
     EOT
-    
-    environment = {
-        AZURE_USERNAME = azurerm_linux_virtual_machine.coursework.admin_username
-        AZURE_PUBLIC_IP = azurerm_linux_virtual_machine.coursework.public_ip_address
-    }
   }
 }
 
