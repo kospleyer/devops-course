@@ -7,18 +7,12 @@ provider "azurerm" {
 resource "azurerm_resource_group" "resgroup" {
   name     = "coursework-resource"
   location = "West Europe"
-  
-  provisioner "local-exec" {
-    command = "terraform import azurerm_resource_group.resgroup /subscriptions/d102c271-8c07-41d9-b7d8-fa42b806b404/resourceGroups/azurerm_resource_group.resgroup.name"
-  }
-  
 }
 
 resource "azurerm_availability_set" "coursework" {
   name                = "coursework"
   location            = azurerm_resource_group.resgroup.location
   resource_group_name = azurerm_resource_group.resgroup.name
-  
 }
 
 ## declare virtual network
