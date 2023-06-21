@@ -29,6 +29,16 @@ jobs:
     
     - name: Import Azure Resource Group
       run: terraform import azurerm_resource_group.resgroup /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource
+    
+    - name: Import Azure Availability Set
+        run: terraform import azurerm_availability_set.coursework /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource/providers/Microsoft.Compute/availabilitySets/coursework
+
+    - name: Import Azure Virtual Network
+        run: terraform import azurerm_virtual_network.virtualnet /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource/providers/Microsoft.Network/virtualNetworks/virtualNetwork
+
+    - name: Import Azure Public IP
+        run: terraform import azurerm_public_ip.ipaddress /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource/providers/Microsoft.Network/publicIPAddresses/publicIp
+
  
     - name: Apply Terraform
       run: terraform apply -auto-approve
