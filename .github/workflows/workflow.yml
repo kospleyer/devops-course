@@ -44,6 +44,10 @@ jobs:
 
     - name: Import Azure Network Interface
       run: terraform import azurerm_network_interface.networkinterface /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource/providers/Microsoft.Network/networkInterfaces/networkInterface
+      
+    - name: Import Azure Virtual Machine
+      run: terraform import azurerm_linux_virtual_machine.coursework /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource/providers/Microsoft.Compute/virtualMachines/coursework-machine
+
 
     - name: Apply Terraform
       run: terraform apply -auto-approve
