@@ -48,9 +48,16 @@ jobs:
     - name: Import Azure Virtual Machine
       run: terraform import azurerm_linux_virtual_machine.coursework /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource/providers/Microsoft.Compute/virtualMachines/coursework-machine
 
-
     - name: Apply Terraform
       run: terraform apply -auto-approve
+      
+    - name: Execute Local Provisioner
+      run: |
+        touch hosts  
+        sed -i -e '/\[server1\]/ {N; d;}' hosts
+        echo "[server1]" >> hosts
+        echo "${{ env.AZURE_USERNAME }}@${{ env.AZURE_PUBLIC_IP }}" >> hosts
+        
     - name: Run Ansible playbook
       run: ansible-playbook -i hosts --private-key=~/.ssh/id_rsa playbook.yml
 
