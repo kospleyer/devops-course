@@ -38,8 +38,11 @@ jobs:
 
     - name: Import Azure Public IP
       run: terraform import azurerm_public_ip.ipaddress /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource/providers/Microsoft.Network/publicIPAddresses/publicIp
+    
+     - name: Import Azure Subnet
+       run: terraform import azurerm_subnet.subnet /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource/providers/Microsoft.Network/virtualNetworks/virtualNetwork/subnets/internal
+    
 
- 
     - name: Apply Terraform
       run: terraform apply -auto-approve
     - name: Run Ansible playbook
