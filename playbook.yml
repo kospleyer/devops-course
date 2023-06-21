@@ -35,7 +35,8 @@
     command: chdir=devops_course/Books/ npm install
     become: yes
     
-  - name: start server in background
-    shell: sudo nodejs devops_course/Books/server.js &
-    async: 10
+  - name: Start server in background
+    command: sudo nodejs devops_course/Books/server.js
+    async: 45
     poll: 0
+    detached: true
