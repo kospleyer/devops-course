@@ -88,8 +88,9 @@ resource "azurerm_linux_virtual_machine" "coursework" {
     sku       = "16.04-LTS"
     version   = "latest"
   } 
-  
-   provisioner "local-exec" {
+}
+
+provisioner "local-exec" {
     command = <<-EOT
     touch hosts  
     sed -i -e '/\[server1\]/ {N; d;}' hosts
@@ -97,7 +98,6 @@ resource "azurerm_linux_virtual_machine" "coursework" {
     sudo echo "${azurerm_linux_virtual_machine.coursework.admin_username}@${azurerm_linux_virtual_machine.coursework.public_ip_address}" >> hosts
     EOT
   }
-}
 
 ## output public ip address of vm
 output "public_ip_address" {
