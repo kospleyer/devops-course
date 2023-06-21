@@ -42,6 +42,9 @@ jobs:
     - name: Import Azure Subnet
       run: terraform import azurerm_subnet.subnet /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource/providers/Microsoft.Network/virtualNetworks/virtualNetwork/subnets/internal
 
+    - name: Import Azure Network Interface
+      run: terraform import azurerm_network_interface.networkinterface /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/coursework-resource/providers/Microsoft.Network/networkInterfaces/networkInterface
+
     - name: Apply Terraform
       run: terraform apply -auto-approve
     - name: Run Ansible playbook
